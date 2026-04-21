@@ -3,12 +3,19 @@ const app = express();
 
 app.set("trust proxy", true);
 
+// ✅ ADD THIS ROOT ROUTE (VERY IMPORTANT)
+app.get("/", (req, res) => {
+  res.send("Request Header Parser Microservice is running 🚀");
+});
+
+// Your main API
 app.get("/api/whoami", (req, res) => {
   const ipaddress = req.headers["x-forwarded-for"] || req.ip;
+
   res.json({
-    ipaddress: req.ip,
+    ipaddress,
     language: req.headers["accept-language"],
-    software: req.headers["user-agent"],
+    software: req.headers["user-agent"]
   });
 });
 
